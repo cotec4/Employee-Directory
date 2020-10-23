@@ -1,9 +1,10 @@
 import React from 'react';
-import moment from "moment";
 // import lodash from "lodash"; _get in lodash
 import getUser from "./utils/api.js"
-import logo from './logo.svg';
 import './App.css';
+import DataTable from "./components/DataTable/DataTable.js";
+import Search from "./components/search/search.js";
+import PageHeader from "./components/header/header.js";
 
 class App extends React.Component {
   constructor() {
@@ -18,9 +19,14 @@ class App extends React.Component {
   componentDidMount() {
     getUser
       .then((res) => {
-        // (console.log(res));
         this.setState({ employees: res.data.results });
       });
+  };
+
+  handleInputChange = event => {
+    this.setState({
+      searchTerm: event.target.value
+    });
   };
 
   sortHandler(item) {
@@ -37,63 +43,21 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        {console.log(this.state.searchTerm)}
-        <input onChange={event => {
-          this.setState({ searchTerm: event.target.value });
-        }} />
-        <table>
-          <thead>
-            <tr>
-              <th>Headshot</th>
-              <th>Title</th>
-              <th onClick={() => { this.sortHandler("first") }}>First Name</th>
-              <th onClick={() => { this.sortHandler("last") }}>Last Name</th>
-              <th>Gender</th>
-              <th>Date of Birth</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.employees.filter(employee => employee.name.last.toLowerCase().startsWith(this.state.searchTerm.toLowerCase()) || employee.name.first.toLowerCase().startsWith(this.state.searchTerm.toLowerCase())).map((person, id) =>
-              <tr key={id}>
-                <td><img src={person.picture.thumbnail}></img></td>
-                <td>{person.name.title}</td>
-                <td>{person.name.first}</td>
-                <td>{person.name.last}</td>
-                <td>{person.gender}</td>
-                <td>{moment(person.dob.date).format("L")}</td>
-                <td>{person.email}</td>
-                <td>{person.cell}</td>
-              </tr>
-            )}
-          </tbody>
-        </table>
+      <div className="container">
+        <PageHeader
+        />
+        <Search
+          searchTerm={this.state.searchTerm}
+          handleInputChange={this.handleInputChange}
+        />
+        <DataTable
+          employees={this.state.employees}
+          sortHandler={this.sortHandler}
+          searchTerm={this.state.searchTerm}
+        />
       </div>
     )
   }
 };
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
 
 export default App;
