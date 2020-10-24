@@ -4,7 +4,7 @@ import "./search.css";
 function Search({searchTerm, handleInputChange}) {
     return (
         <div className="search">
-            <label htmlFor="search">Filter:</label>
+            <label id="label">Filter:</label>
             <input 
             onChange={handleInputChange}
             value={searchTerm}

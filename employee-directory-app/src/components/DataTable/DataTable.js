@@ -4,7 +4,7 @@ import "./DataTable.css";
 
 function DataTable({employees, searchTerm, sortHandler}) {
     return (
-        <table className="table table-dark">
+        <table className="table table-dark table-striped">
             <thead>
                 <tr>
                     <th scope="col">Headshot</th>

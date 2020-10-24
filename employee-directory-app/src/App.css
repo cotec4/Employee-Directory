@@ -40,3 +40,7 @@
 .searchBtn {
   border: 1px solid #101d42;
 }
+
+#contain {
+  background-color: lightgrey;
+}
