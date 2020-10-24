@@ -14,9 +14,10 @@ class App extends React.Component {
       searchTerm: "",
       sorted: false
     };
+    this.sortHandler = this.sortHandler.bind(this)
   };
-
-  componentDidMount() {
+    
+    componentDidMount() {
     getUser
       .then((res) => {
         this.setState({ employees: res.data.results });
